@@ -16,6 +16,6 @@ function mkdirSync (path) {
 };
 
 mkdirSync($APP_DATA + "/single-require");
-if(!fs.existsSync(path.resolve($APP_DATA + "/hex", "config.json"))){
-    fs.writeFile(path.resolve($APP_DATA + "/hex", "config.json"), JSON.stringify({}, null, ' '));
+if(!fs.existsSync(path.resolve($APP_DATA + "/single-require", "config.json"))){
+    fs.writeFile(path.resolve($APP_DATA + "/single-require", "config.json"), JSON.stringify({gitlabLogin:"", gitlabPassword:""}, null, ' '));
 }
