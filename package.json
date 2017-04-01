@@ -1,9 +1,9 @@
 {
   "name": "single-require",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A tool to include files from webservers",
   "main": "req.js",
-  "repository": "https://github.com/CapsE/req.git",
+  "repository": "https://github.com/CapsE/single-require.git",
   "dependencies": {
     "yargs": "^7.0.2"
   },
