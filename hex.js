@@ -1,5 +1,5 @@
 /**
- * Created by Lars on Christmas.
+ * Created by Lars on 17.10.2016.
  */
 
 var JiraClient = require('jira-connector');
