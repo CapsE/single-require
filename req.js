@@ -26,7 +26,23 @@ function ex(cmd, arg){
     });
 }
 
-ex("git", ['branch'] ).then(br =>{
-   br = br.split("\n")[0].substr(2);
-   console.log(br);
+function getBranch(){
+    return new Promise(function(resolve, reject){
+        ex("git", ['branch'] ).then(br =>{
+            br = br.split("*")[1].split("\n")[0].substr(1);
+            resolve(br);
+        }).catch(e =>{
+            reject(e);
+        });
+    });
+}
+
+getBranch().then(br =>{
+    branch = br;
+    ex("git", ["checkout", "-b" , tempBranch, "HEAD~1"]).then(function () {
+        return ex("git", ["checkout", branch]);
+    });
 });
+
+
+
