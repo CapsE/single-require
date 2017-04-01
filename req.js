@@ -3,13 +3,11 @@
  */
 
 const spawn = require('child_process').spawn;
-var argv = require('yargs').argv;
-var branch;
-var tempBranch = new Date().getTime();
+const path = require('path'), fs=require('fs');
+const argv = require('yargs').argv;
 
 
 var url = argv._[0];
-var filename = url.split("/").pop();
 
 function ex(cmd, arg){
     var sp = spawn(cmd, arg);
@@ -35,37 +33,37 @@ function ex(cmd, arg){
     });
 }
 
-function getBranch(){
-    return new Promise(function(resolve, reject){
-        ex("git", ['branch'] ).then(br =>{
-            br = br.split("*")[1].split("\n")[0].substr(1);
-            resolve(br);
-        }).catch(e =>{
-            reject(e);
-        });
-    });
-}
 
 
-getBranch().then(br =>{
-    branch = br;
-    return ex("git", ["checkout", "-b" , tempBranch, "HEAD~1"]);
-}).then(function (o) {
-    console.log(o);
-    return ex("curl", ["-O", url]);
-}).then(function (o) {
-    console.log(o);
-    return ex("git", ["add", filename]);
-}).then(function (o) {
-    console.log(o);
-    return ex("git", ["commit", "-m" , "Require update"]);
-}).then(function (o) {
-    console.log(o);
-    return ex("git", ["checkout", branch]);
-}).then(function (o) {
-    console.log(o);
-    return ex("git", ["merge", tempBranch]);
-}).then(function (o) {
-    console.log(o);
-    return ex("git", ["branch", "-D", tempBranch]);
-});
+function fromDir(startPath,filter){
+
+    //console.log('Starting from dir '+startPath+'/');
+
+    if (!fs.existsSync(startPath)){
+        console.log("no dir ",startPath);
+        return;
+    }
+
+    var files=fs.readdirSync(startPath);
+    for(var i=0;i<files.length;i++){
+        var filename=path.join(startPath,files[i]);
+        var stat = fs.lstatSync(filename);
+        if (stat.isDirectory()){
+            fromDir(filename,filter); //recurse
+        }
+        else if (filename.split(".").pop() == filter) {
+            console.log('-- found: ',filename);
+            fs.readFile("./" + filename, function (err,content) {
+                console.log('loading: ',content.toString());
+                filename = filename.split(".");
+                filename.pop();
+                filename = filename.join(".");
+                ex("curl", ["-o", filename, content]);
+            });
+        };
+    };
+};
+
+fromDir('./','req');
+
+//ex("curl", ["-O", url]);
