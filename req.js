@@ -15,13 +15,18 @@ var filename = url.split("/").pop();
 
 function ex(cmd, arg){
     var sp = spawn(cmd, arg);
+    var buffer = "";
     return new Promise(function (resolve, reject) {
         sp.stdout.on('data', (data) => {
-            resolve(data.toString());
+            buffer += data.toString() + "\n";
         });
 
         sp.stderr.on('data', (data) => {
-            resolve(data.toString());
+            buffer += data.toString() + "\n";
+        });
+
+        ls.on('close', (code) => {
+            resolve(buffer);
         });
     });
 }
