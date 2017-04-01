@@ -29,7 +29,7 @@ function ex(cmd, arg){
             }else{
                 setTimeout(function () {
                     resolve(buffer);
-                }, 500);
+                }, 100);
             }
         });
     });
