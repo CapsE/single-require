@@ -20,8 +20,7 @@ function ex(cmd, arg){
         });
 
         sp.stderr.on('data', (data) => {
-            console.log("Error:", data.toString());
-            reject(data.toString());
+            resolve(data.toString());
         });
     });
 }
