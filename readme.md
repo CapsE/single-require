@@ -13,4 +13,6 @@ npm install -g single-require
 * run the "req" command in your console.
 
 ##### Example
-![A folder showing how to setup the file](https://github.com/ "Example")
+![A folder showing how to setup the file](https://github.com/CapsE/single-require/blob/master/example/example.png?raw=true "Example")
+
+Keep in mind the "req" command will check the current folder with all it's subfolders for files with the ".req" file extension. This tool also doesn't check versions but instead just downloads the given files.
