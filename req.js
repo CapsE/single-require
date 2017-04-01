@@ -6,9 +6,6 @@ const spawn = require('child_process').spawn;
 const path = require('path'), fs=require('fs');
 const argv = require('yargs').argv;
 
-
-var url = argv._[0];
-
 function ex(cmd, arg){
     var sp = spawn(cmd, arg);
     var buffer = "";
@@ -48,17 +45,20 @@ function fromDir(startPath,filter){
     for(var i=0;i<files.length;i++){
         var filename=path.join(startPath,files[i]);
         var stat = fs.lstatSync(filename);
+        var fileSplit = filename.split(".");
+
         if (stat.isDirectory()){
             fromDir(filename,filter); //recurse
         }
-        else if (filename.split(".").pop() == filter) {
+        else if (fileSplit.length > 2 && fileSplit[fileSplit.length-1] == filter) {
             console.log('-- found: ',filename);
+            fn = filename;
             fs.readFile("./" + filename, function (err,content) {
                 console.log('loading: ',content.toString());
-                filename = filename.split(".");
-                filename.pop();
-                filename = filename.join(".");
-                ex("curl", ["-o", filename, content]);
+                fn = fn.split(".");
+                fn.pop();
+                fn = fn.join(".");
+                ex("curl", ["-o", fn, content]);
             });
         };
     };
