@@ -43,14 +43,19 @@ getBranch().then(br =>{
     return ex("git", ["checkout", "-b" , tempBranch, "HEAD~1"]);
 }).then(function () {
     return ex("curl", ["-O", url]);
-}).then(function () {
+}).then(function (o) {
+    console.log(o);
     return ex("git", ["add", filename]);
-}).then(function () {
+}).then(function (o) {
+    console.log(o);
     return ex("git", ["commit", "-m" , "Require update"]);
-}).then(function () {
+}).then(function (o) {
+    console.log(o);
     return ex("git", ["checkout", branch]);
-}).then(function () {
+}).then(function (o) {
+    console.log(o);
     return ex("git", ["merge", tempBranch]);
-}).then(function () {
+}).then(function (o) {
+    console.log(o);
     return ex("git", ["branch", "-D", tempBranch]);
 });
