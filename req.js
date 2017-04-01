@@ -6,9 +6,7 @@ const spawn = require('child_process').spawn;
 var argv = require('yargs').argv;
 var branch;
 var tempBranch = new Date().getTime();
-var cmd = 'git checkout -b ' + tempBranch + " HEAD~1";
-cmd = "git branch | grep \* | cut -d ' ' -f2";
-cmd = 'curl -O ' + "url";
+
 
 var url = argv._[0];
 var filename = url.split("/").pop();
@@ -31,7 +29,7 @@ function ex(cmd, arg){
             }else{
                 setTimeout(function () {
                     resolve(buffer);
-                }, 100);
+                }, 500);
             }
         });
     });
