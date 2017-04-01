@@ -63,5 +63,5 @@ getBranch().then(br =>{
     return ex("git", ["merge", tempBranch]);
 }).then(function (o) {
     console.log(o);
-    return ex("git", ["branch", "-D", tempBranch]);
+    //return ex("git", ["branch", "-D", tempBranch]);
 });
