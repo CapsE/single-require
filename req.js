@@ -25,7 +25,7 @@ function ex(cmd, arg){
             buffer += data.toString() + "\n";
         });
 
-        ls.on('close', (code) => {
+        sp.on('close', (code) => {
             resolve(buffer);
         });
     });
@@ -46,7 +46,8 @@ function getBranch(){
 getBranch().then(br =>{
     branch = br;
     return ex("git", ["checkout", "-b" , tempBranch, "HEAD~1"]);
-}).then(function () {
+}).then(function (o) {
+    console.log(o);
     return ex("curl", ["-O", url]);
 }).then(function (o) {
     console.log(o);
