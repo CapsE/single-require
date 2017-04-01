@@ -26,7 +26,13 @@ function ex(cmd, arg){
         });
 
         sp.on('close', (code) => {
-            resolve(buffer);
+            if(cmd != "curl"){
+                resolve(buffer);
+            }else{
+                setTimeout(function () {
+                    resolve(buffer);
+                }, 100);
+            }
         });
     });
 }
@@ -63,5 +69,5 @@ getBranch().then(br =>{
     return ex("git", ["merge", tempBranch]);
 }).then(function (o) {
     console.log(o);
-    //return ex("git", ["branch", "-D", tempBranch]);
+    return ex("git", ["branch", "-D", tempBranch]);
 });
