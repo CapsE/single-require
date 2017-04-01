@@ -3,19 +3,20 @@
  */
 
 const spawn = require('child_process').spawn;
+var argv = require('yargs').argv;
 var branch;
 var tempBranch = new Date().getTime();
 var cmd = 'git checkout -b ' + tempBranch + " HEAD~1";
 cmd = "git branch | grep \* | cut -d ' ' -f2";
-cmd = 'curl -O ' + url;
+cmd = 'curl -O ' + "url";
 
-var url = process.argv[2];
+var url = argv._[0];
+var filename = url.split("/").pop();
 
 function ex(cmd, arg){
     var sp = spawn(cmd, arg);
     return new Promise(function (resolve, reject) {
         sp.stdout.on('data', (data) => {
-            console.log(data.toString());
             resolve(data.toString());
         });
 
@@ -36,12 +37,20 @@ function getBranch(){
     });
 }
 
+
 getBranch().then(br =>{
     branch = br;
-    ex("git", ["checkout", "-b" , tempBranch, "HEAD~1"]).then(function () {
-        return ex("git", ["checkout", branch]);
-    });
+    return ex("git", ["checkout", "-b" , tempBranch, "HEAD~1"]);
+}).then(function () {
+    return ex("curl", ["-O", url]);
+}).then(function () {
+    return ex("git", ["add", filename]);
+}).then(function () {
+    return ex("git", ["commit", "-m" , "Require update"]);
+}).then(function () {
+    return ex("git", ["checkout", branch]);
+}).then(function () {
+    return ex("git", ["merge", tempBranch]);
+}).then(function () {
+    return ex("git", ["branch", "-D", tempBranch]);
 });
-
-
-

@@ -1,0 +1,15 @@
+{
+  "name": "single-require",
+  "version": "1.0.0",
+  "description": "",
+  "main": "req.js",
+  "dependencies": {
+    "yargs": "^7.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Lars Krafft",
+  "license": "ISC"
+}
