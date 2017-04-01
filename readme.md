@@ -16,3 +16,6 @@ npm install -g single-require
 ![A folder showing how to setup the file](https://github.com/CapsE/single-require/blob/master/example/example.png?raw=true "Example")
 
 Keep in mind the "req" command will check the current folder with all it's subfolders for files with the ".req" file extension. This tool also doesn't check versions but instead just downloads the given files.
+
+#### Private Repositories
+Currently only public sources and private GitLab repositories can be accessed. To access files from you GitLab account add your private GitLab API Token to the config.json located at "%APPDATA%/single-require/"
